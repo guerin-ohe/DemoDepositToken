@@ -1,0 +1,325 @@
+                           (_) | |
+      __ _   _ __   __   __  _  | |
+     / _` | | '_ \  \ \ / / | | | |
+    | (_| | | | | |  \ V /  | | | |
+     \__,_| |_| |_|   \_/   |_| |_|
+
+    1.7.1 (4072e48705 2026-05-08T07:54:31.470926000Z)
+    https://github.com/foundry-rs/foundry
+
+Available Accounts
+==================
+
+(0) 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000.000000000000000000 ETH)
+(1) 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 (10000.000000000000000000 ETH)
+(2) 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC (10000.000000000000000000 ETH)
+(3) 0x90F79bf6EB2c4f870365E785982E1f101E93b906 (10000.000000000000000000 ETH)
+(4) 0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65 (10000.000000000000000000 ETH)
+(5) 0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc (10000.000000000000000000 ETH)
+(6) 0x976EA74026E726554dB657fA54763abd0C3a0aa9 (10000.000000000000000000 ETH)
+(7) 0x14dC79964da2C08b23698B3D3cc7Ca32193d9955 (10000.000000000000000000 ETH)
+(8) 0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f (10000.000000000000000000 ETH)
+(9) 0xa0Ee7A142d267C1f36714E4a8F75612F20a79720 (10000.000000000000000000 ETH)
+
+Private Keys
+==================
+
+(0) 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+(1) 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
+(2) 0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a
+(3) 0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6
+(4) 0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a34926a
+(5) 0x8b3a350cf5c34c9194ca85829a2df0ec3153be0318b5e2d3348e872092edffba
+(6) 0x92db14e403b83dfe3df233f83dfa3a0d7096f21ca9b0d6d6b8d88b2b4ec1564e
+(7) 0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356
+(8) 0xdbda1821b80551c9d65939329250298aa3472ba22feea921c0cf5d620ea67b97
+(9) 0x2a871d0798f97d79848a013d4936a73bf4cc922c825d33c1cf7073dff6d409c6
+
+Wallet
+==================
+Mnemonic:          test test test test test test test test test test test junk
+Derivation path:   m/44'/60'/0'/0/
+
+
+Chain ID
+==================
+
+31337
+
+Base Fee
+==================
+
+1000000000
+
+Gas Limit
+==================
+
+30000000
+
+Genesis Timestamp
+==================
+
+1779355738
+
+Genesis Number
+==================
+
+0
+
+
+
+Comment modifier le code du smart contrat Solidity ci-dessous pour implémenter un wallet de token ERC20 ?
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.12;
+
+contract SimpleWallet {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Fonction pour recevoir des ETH
+    receive() external payable {}
+
+    // Fonction pour retirer des ETH
+    function withdraw(uint _amount, address payable _to) external {
+        require(msg.sender == owner, "Seul le proprietaire peut retirer des fonds");
+        require(address(this).balance >= _amount, "Fonds insuffisants");
+        //_to.transfer(_amount);
+        (bool success,) = _to.call{value: _amount}("");
+        require(success, "Transfer failed");
+    }
+
+    // Fonction pour consulter le solde du contrat
+    function getBalance() external view returns (uint) {
+        return address(this).balance;
+    }
+}
+
+0xD7ACd2a9FD159E69Bb102A1ca21C9a3e3A5F771B
+
+https://eips.ethereum.org/EIPS/eip-20
+
+
+J'ai l'erreur Typescript :
+
+error TS2322: Type '{ adress: string; balance: bigint; }[]' is not assignable to type 'BalanceList'.
+  Type '{ adress: string; balance: bigint; }' is not assignable to type 'AdressAndBalance'.
+
+dans le code ci-dessous :
+
+// tuple adress and key
+type AdressAndKey = [adress: string, key: string];
+
+// list
+const AdressAndKeyList: AdressAndKey[] = [
+  ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266", "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"],
+  ["0x70997970C51812dc3A010C7d01b50e0d17dc79C8", "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d"],
+  ["0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC", "0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a"]
+];
+
+// get adress and key list
+export const getAdressList = (): AdressAndKey[] => {
+    return AdressAndKeyList;
+}
+
+// tuple adress and solde
+type AdressAndBalance = [adress: string, balance: bigint];
+
+type BalanceList = AdressAndBalance[];
+
+// get adress and adress balance list
+export const getAdressAndBalanceList = async (provider: Provider): Promise<BalanceList> => {
+
+  // map getSolde on adress list
+  const adressAndBalanceList = await Promise.all(
+    AdressAndKeyList.map(async ([adress, key]) => {
+      const balance = await getBalance(provider, adress);
+      return { adress, balance };
+    }));
+  
+  return adressAndBalanceList;
+}
+
+
+Dans une page EJS, avec Typescript et Node.JS, j'ai le message d'erreur ci-dessous. Quelles sont les causes possibles ? 
+
+TypeError: /Users/olivier/Workspace/crypto/CryptoDemo/DemoStablecoin_v2/src/views/home.ejs:12
+    10|   <p>Ether.js version: <%= etherjs_version %></p>
+    11|   <ul>
+ >> 12|     <% adressAndBalanceList.forEach(([adress, balance]) => { %>
+    13|       <li>
+    14|         <strong><%= adress %></strong> : <%= balance.toString() %>
+    15|       </li>
+
+adressAndBalanceList.forEach is not a function
+    at eval ("/Users/olivier/Workspace/crypto/CryptoDemo/DemoStablecoin_v2/src/views/home.ejs":15:29)
+
+Comment modifier cette page EJS ci-dessous pour afficher la liste adressAndBalanceList sous forme d'un tableau ayant comme colonne 'Adress' et 'Balance' ?
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+</head>
+<body>
+  <h1>Bienvenue sur la page d'acceuil</h1>
+  <p>Ether.js version: <%= etherjs_version %></p>
+  <ul>
+    <% adressAndBalanceList.forEach(([adress, balance]) => { %>
+      <li>
+        <strong><%= adress %></strong> : <%= balance %>
+      </li>
+    <% }) %>
+  </ul>
+</body>
+</html>
+
+http://localhost:3000/mint?adress=0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+
+- function name() public view returns (string)
+
+- function symbol() public view returns (string)
+
+- function totalSupply() public view returns (uint256)
+
+- function transfer(address _to, uint256 _value) public returns (bool success)
+
+const data = await response.json();
+if (data.success && data.redirectTo) {
+  window.location.href = data.redirectTo; // navigation vers /home
+}
+
+
+Avec Express.js, Typescript et le moteur de rendu EJS, peux tu me proposer une feuille de style minimal pour améliorer le rendu de la vue ejs ci-dessous :
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+</head>
+<body>
+  <h1>tableau de bord des adresses</h1>
+  
+  <p>Ether.js version: <%= etherjs_version %></p>
+  
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Adress</th>
+        <th>ETH Balance</th>
+        <th><a href="/stablecoin"><%= erc20_symbol %></a> Balance</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% adressAndBalanceList.forEach(([adress, eth_balance, erc20_balance]) => { %>
+        <tr>
+          <td><%= adress %></td>
+          <td><%= eth_balance %></td>
+          <td><%= erc20_balance %></td>
+          <td><p><a href="/mint?to=<%= adress %>">Mint</a> - <a href="/transfert?from=<%= adress %>">Transfert</a></p></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+</body>
+</html>
+
+
+
+Comment corriger l'erreur ci-desous dans le programme TypeScrfipt, Express.js, Ether.js ci-joint :
+
+src/models/erc20log/erc20logs_parser.ts:31:15 - error TS18047: 'parsed' is possibly 'null'.
+
+31         from: parsed.args as string,
+                 ~~~~~~
+
+
+Dans la fonction Typescript ci-dessous qui utilise la librairie Ether.js v6, je veux aussi retourner la date de l'événement de la logs ?
+
+// Arguments décodus de l'événement Transfer
+export interface ERC20TransferArgs {
+  from: string;
+  to: string;
+  value: bigint;
+}
+
+// Type pratique pour un log Transfer ERC20
+export type ERC20TransferEventLog = EventLog & {
+  args: ERC20TransferArgs;
+  eventName: "Transfer";
+}
+
+// formateur log ERC20
+const iface = new Interface(STABLECOIN_ABI);
+
+// parseur log ERC20
+export function parseERC20TransferLog(log: Log): ERC20TransferArgs {
+  const parsed = iface.parseLog({
+    topics: log.topics,
+    data: log.data,
+  });
+
+  if (!parsed || parsed.name !== 'Transfer') {
+    throw new Error('Invalid Transfer log');
+  }
+
+  const from = parsed.args[0] as string;
+  const to = parsed.args[1] as string;
+  const value = parsed.args[2] as bigint;
+
+  return { from, to, value };
+}
+
+
+<th>timestamp</th>
+<th>blockNumber</th>
+<th>blockHash</th>
+
+Avec Typescript et Ether.js v6, quels sont les arguments à donner à la fonction "provider.getLogs()" pour récupérer les événements ERC20 "transfert" pour le jeton d'adresse "tokenAddress" et en provenance de "fromAddress" ? 
+
+// get logs
+  const logs = await provider.getLogs({
+    address: tokenAddress,
+    topics: [id("Transfer(address,address,uint256)")]
+  });
+
+
+Même question, mais je veux les événements ERC20 "transfert" du jeton d'adresse "tokenAddress" à destination de l'adresse "toAddress" ?
+
+
+
+B0rd€l@Cul691213
+
+
+https://github.com/guerin-ohe/Bibine2.git
+
+echo "# DemoStablecoin" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/guerin-ohe/DemoStablecoin.git
+git push -u origin main
+
+echo "# DemoDepositToken" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/guerin-ohe/DemoDepositToken.git
+git push -u origin main
+
+
+git remote set-url origin git@github.com:guerin-ohe/DemoStablecoin.git
+
+
+

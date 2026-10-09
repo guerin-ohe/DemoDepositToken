@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DepositToken</title>
+
+  <link rel="stylesheet" href="/css/style.css" />
+  
+</head>
+<body>
+  <h1>ERC20 transfert event</h1>
+  
+  <br />
+  <p>ERC20 transfert from event:</p>
+  <br />
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Value</th>
+        <th>blockDate</th>
+        <th>timestamp</th>
+        <th>blockNumber</th>
+        <th>blockHash</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% erc20TransfertsFrom.forEach((erc20Transfert) => { %>
+        <tr>
+          <td><%= erc20Transfert.from %></td>
+          <td><%= erc20Transfert.to %></td>
+          <td><%= erc20Transfert.value %></td>
+          <td><%= erc20Transfert.blockDate%></td>
+          <td><%= erc20Transfert.timestamp%></td>
+          <td><%= erc20Transfert.blockNumber%></td>
+          <td><%= erc20Transfert.blockHash%></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <br />
+  <p>ERC20 transfert to event:</p>
+  <br />
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Value</th>
+        <th>blockDate</th>
+        <th>timestamp</th>
+        <th>blockNumber</th>
+        <th>blockHash</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% erc20TransfertsTo.forEach((erc20Transfert) => { %>
+        <tr>
+          <td><%= erc20Transfert.from %></td>
+          <td><%= erc20Transfert.to %></td>
+          <td><%= erc20Transfert.value %></td>
+          <td><%= erc20Transfert.blockDate%></td>
+          <td><%= erc20Transfert.timestamp%></td>
+          <td><%= erc20Transfert.blockNumber%></td>
+          <td><%= erc20Transfert.blockHash%></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+</body>
+</html>

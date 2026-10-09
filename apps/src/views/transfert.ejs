@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Transfert</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    
+</head>
+<body>
+    <h1>ERC20 transfert form :</h1>
+    <form id="transfert">
+        <label for="from">From adress:</label>
+        <input type="text" id="from" name="from" value="<%= from %>" /><br><br>
+        <label for="to">To adress:</label>
+        <input type="text" id="to" name="to" /><br><br>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" /><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('transfert').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                from:  document.getElementById('from').value,
+                to: document.getElementById('to').value,
+                amount: document.getElementById('amount').value
+            };
+
+            fetch('/transfert_submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(async response => {
+                // vérifier juste le status HTTP
+                if (!response.ok) {
+                    throw new Error('Server error !');
+                }
+
+                // Analyse JSON de retour { success: true, ... }
+                const data = await response.json();
+                if (data.success) {
+                    // Redirection côté client vers /home
+                    window.location.href = '/home';
+                } else {
+                    alert(data.message || 'Transfert fail !');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Transfert fail [' + error.message + ']!');
+            });
+        });
+    </script>
+</body>
+</html>

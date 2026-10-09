@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DepositToken</title>
+
+  <link rel="stylesheet" href="/css/style.css" />
+  
+</head>
+<body>
+  <h1>DepositToken dashboard</h1>
+  
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>Ether.js version</td>
+          <td><%= etherjs_version %></td>
+        </tr>
+        <tr>
+          <td>Name</td>
+          <td><%= erc20_name %></td>
+        </tr>
+        <tr>
+          <td>Symbol</td>
+          <td><%= erc20_symbol %></td>
+        </tr>
+        <tr>
+          <td>Decimals</td>
+          <td><%= erc20_decimals %></td>
+        </tr>
+        <tr>
+          <td>Total Supply</td>
+          <td><%= erc20_total_supply %></td>
+        </tr>
+        <tr>
+          <td>Paused</td>
+          <td><%= erc20_paused %> - <a href="/switch_mint">Switch mint status</a></td>
+        </tr>
+    </tbody>
+  </table>
+
+  <br />
+  <p>Balance and repair:</p>
+  <br />
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Adress</th>
+        <th>ERC20 Balance</th>
+        <th>Total Repair</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% adressERC20BalanceAndRepairList.forEach(([adress, erc20_balance, erc20_total_repair]) => { %>
+        <tr>
+          <td><%= adress %></td>
+          <td><%= erc20_balance %></td>
+          <td><%= erc20_total_repair.toFixed(2) %></td>
+          <td><p><a href="/burn?to=<%= adress %>">Withdraw</a></p></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <br />
+  <p>ERC20 transfert logs:</p>
+  <br />
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>From</th>
+        <th>To</th>
+        <th>Value</th>
+        <th>blockDate</th>
+        <th>timestamp</th>
+        <th>blockNumber</th>
+        <th>blockHash</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% erc20Transferts.forEach((erc20Transfert) => { %>
+        <tr>
+          <td><%= erc20Transfert.from %></td>
+          <td><%= erc20Transfert.to %></td>
+          <td><%= erc20Transfert.value %></td>
+          <td><%= erc20Transfert.blockDate%></td>
+          <td><%= erc20Transfert.timestamp%></td>
+          <td><%= erc20Transfert.blockNumber%></td>
+          <td><%= erc20Transfert.blockHash%></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+</body>
+</html>

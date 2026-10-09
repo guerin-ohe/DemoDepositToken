@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Mint</title>
+
+    <link rel="stylesheet" href="/css/style.css" />
+    
+</head>
+<body>
+    <h1>Mint form :</h1>
+    <form id="mint">
+        <label for="to">To adress:</label>
+        <input type="text" id="to" name="to" value="<%= to %>"/><br><br>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" /><br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('mint').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                to: document.getElementById('to').value,
+                amount: document.getElementById('amount').value
+            };
+
+            fetch('/mint_submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(async response => {
+                // vérifier juste le status HTTP
+                if (!response.ok) {
+                    throw new Error('Server error !');
+                }
+
+                // Analyse JSON de retour { success: true, ... }
+                const data = await response.json();
+                if (data.success) {
+                    // Redirection côté client vers /home
+                    window.location.href = '/home';
+                } else {
+                    alert(data.message || 'Mint fail !');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Mint fail [' + error.message + ']!');
+            });
+        });
+    </script>
+</body>
+</html>
